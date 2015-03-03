@@ -6,8 +6,13 @@
  
  public class Coord 
  {
- 
- 
+	/* Constructor for Coord class
+	 * parameters
+	 *
+	 */
+	public Coord() {
+	
+	}
  
  
  
