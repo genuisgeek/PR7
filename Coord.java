@@ -3,15 +3,13 @@
  * ID: 
  * Email: 
  */
- 
+
 import java.awt.*;
 import java.util.ArrayList;
 
- 
- 
  public final class Coord 
  {
-	public ArrayList<Point> coordinateArray = new ArrayList<Point>();
+	private ArrayList<Coord> coordinateArray = new ArrayList<Coord>();
 	private boolean equal;
 	private String printCoord = null;
 	private int i; 
@@ -47,12 +45,6 @@ import java.util.ArrayList;
 	
 	public String toString() {
 		printCoord = "[" + this.getX() + ", " + this.getY() + "]";
-	/*
-		for (i = 0; i < coordinateArray.size(); ++i) {
-			printCoord += "/n" + coordinateArray.get(i);
-			// System.out.println("Coordinate: " + coordinateArray[i]);
-		}
-		*/
 		return printCoord;
 	}
 	/*
@@ -65,14 +57,14 @@ import java.util.ArrayList;
 	}*/
 	
 	public int getX() {
-		return this.x;
+		return x;
 	}
 	
 	public int getY() {
-		return this.y;
+		return y;
 	}
 	
-	public static void main (String args[])
+	public static void main (String args[]) // main method to test Coord and array methods
 	{
 		ArrayList<Coord> arrayCoord = new ArrayList<Coord>();
 		Coord newCoord = new Coord(1, 2); 
