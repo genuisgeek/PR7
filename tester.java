@@ -7,13 +7,16 @@ public class tester
 	{
 		bitch.drawGrid();
 		System.out.println(Arrays.deepToString(bitch.charGrid));
-		bitch.moveSnake(1, 0);
+		bitch.addObstacle();
+		bitch.moveSnake(1, 0); //going in 
 		System.out.println(Arrays.deepToString(bitch.charGrid));
-		bitch.growSnake(1,0);
+		bitch.addObstacle();
+		bitch.growSnake(1,0); // going in 
 		System.out.println(Arrays.deepToString(bitch.charGrid));
-		bitch.growSnake(1,0);
+		bitch.addObstacle();
+		bitch.growSnake(0,1);  // good goes down one 
 		System.out.println(Arrays.deepToString(bitch.charGrid));
-		bitch.growSnake(1,0);
+		bitch.growSnake(1, 0); //invalid rule 
 		System.out.println(Arrays.deepToString(bitch.charGrid));
 		/*
 		Coord testCoord = new Coord(0,1);

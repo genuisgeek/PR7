@@ -57,6 +57,7 @@ public class GameGrid
 		snakeCopy = aSnake.getWholeSnake(); // make a copy of the current snake
 		if (!aSnake.move(n, m))
 		{
+			System.out.println("invalid move");
 			return false;
 		}
 		
@@ -65,7 +66,7 @@ public class GameGrid
 			return false;
 		}
 		clearSnake(snakeCopy);
-		redrawSnake(snakeCopy);
+		redrawSnake(aSnake.getWholeSnake());
 		return true;
 	}
 	
@@ -74,6 +75,7 @@ public class GameGrid
 		snakeCopy = aSnake.getWholeSnake();
 		if (!aSnake.grow(n, m))
 		{
+			System.out.println("INVALID BITCH");
 			return false;
 		}
 		
@@ -82,13 +84,14 @@ public class GameGrid
 			return false;
 		}
 		clearSnake(snakeCopy);
-		redrawSnake(snakeCopy);
+		redrawSnake(aSnake.getWholeSnake());
 		return true;
 	}
 	
 	private void clearSnake(Coord [] c) 
 	{	
 		try {
+			int check = 0;
 			for (int i = 0; i < c.length; ++i)
 			{
 				charGrid[c[i].getX()][c[i].getY()] = '.';
@@ -103,24 +106,41 @@ public class GameGrid
 	
 	public void redrawSnake(Coord [] c)
 	{
-		try {
-			charGrid[c[0].getX()][c[0].getY()] = 'H';
+		try 
+		{
+			int check = 0;
+			charGrid[c[0].getX()][c[0].getY()] = 'H'; // H head is definitely moving
 			for (int i = 1; i < c.length; ++i)
 			{
-				System.out.println("bitch");
+				//System.out.println("It is changing this coordinate right now: " + c[i].getX() + " " + c[i].getY());
+				// System.out.print("How many times is this going in?");
+				// check++;
+				// System.out.println(check);
 				charGrid [c[i].getX()][c[i].getY()] = '#';
 			}
 		}
 		
 		catch (NullPointerException e)
 		{
+			System.out.println("Entered NullPointerException");
 			return;
 		}
 	}
 	
 	public void addObstacle()
 	{
-
+		int x, y;
+		boolean loopRandom = true;
+		while(loopRandom)
+		{
+			x = obstacleRand.nextInt(gridWidth);
+			y = obstacleRand.nextInt(gridHeight);
+			if ( charGrid[x][y] == '.')
+			{
+				charGrid[x][y] = obstacleCell;
+				loopRandom = false;
+			}
+		}
 	}
 	
 	// check within grid, check no intersection, check obstacle
@@ -140,6 +160,12 @@ public class GameGrid
 		
 		//check if it intersects 
 		if (aSnake.checkIntersect(head))
+		{
+			return false;
+		}
+		
+		// check if hit obstacle 
+		if (charGrid[head.getX()][head.getY()] == obstacleCell)
 		{
 			return false;
 		}

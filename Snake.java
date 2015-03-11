@@ -33,7 +33,6 @@ public class Snake
     {
       return false; //says valid movement has to actually move lol
     }
-    //FIX FIX FIX FIX FIX V
     Coord moveHead = new Coord(getHeadCoord().getX() + n, getHeadCoord().getY() + m);//is there a getter for x and y in Coord? 
     
     if (moveHead.equals(snakeBody[1]))
@@ -55,15 +54,17 @@ public class Snake
   public boolean grow(int n, int m)
   {
     Coord tail = getTailCoord(); //gets old tail coordinates and saves them in temp
-	if ( !this.move(n, m)) 
+	if ( !move(n, m)) 
 	{
 		return false;
 	}
+
     if (snakeSize < snakeBody.length) //if snakeSize is less than max Size
     {
-      snakeBody[snakeSize] = tail; //tail is the same head increases
-	  snakeSize += 1;
-      return true;
+		// snake size is accurate 
+		snakeBody[snakeSize++] = tail; //tail is the same head increases
+		// System.out.println(snakeSize);
+		return true;
     }
     return false;
   }
