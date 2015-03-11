@@ -54,7 +54,7 @@ public class Snake
   public boolean grow(int n, int m)
   {
     Coord tail = getTailCoord(); //gets old tail coordinates and saves them in temp
-	if ( !move(n, m)) 
+	if (!move(n, m)) 
 	{
 		return false;
 	}
@@ -93,7 +93,12 @@ public class Snake
   
   public Coord [] getWholeSnake() // needed to get copy 
   {
-	return snakeBody;
+	Coord [] copySnake = new Coord[snakeBody.length];
+	for (int i = 0; i < copySnake.length; ++i)
+	{
+		copySnake[i] = snakeBody[i];
+	}
+	return copySnake;
   }
   
   public String toString() // made toString method to check array of snakebody

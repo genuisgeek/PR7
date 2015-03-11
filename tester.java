@@ -1,25 +1,64 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class tester
 {
-	static GameGrid bitch = new GameGrid(5, 5);
+	private static GameGrid bitch = new GameGrid(10, 30);
+	private static Scanner usrKey = new Scanner(System.in);
+	private static String input;
+	
 	public static void main (String args[])
 	{
 		bitch.drawGrid();
-		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
-		bitch.addObstacle();
-		bitch.moveSnake(1, 0); //going in 
-		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
-		bitch.addObstacle();
-		bitch.growSnake(1,0); // going in 
-		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
-		bitch.addObstacle();
-		bitch.growSnake(0,1);  // good goes down one 
-		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
-		bitch.growSnake(1, 0); //invalid rule 
-		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
+		bitch.gridPrint();
+		while(true)
+		{
+			input = usrKey.next();
+			
+			if (input.equals("k")) // simple movement is a problem because it keeps the H value 
+			{
+				bitch.moveSnake(1, 0);
+				bitch.gridPrint();
+				bitch.addObstacle();
+			}	
+			
+			if (input.equals("j"))
+			{
+				bitch.growSnake(0, -1);
+				bitch.gridPrint();
+				bitch.addObstacle();
+			}
+			
+			if (input.equals("l"))
+			{
+				bitch.growSnake(0, 1);
+				bitch.gridPrint();
+				bitch.addObstacle();
+			}
+			
+			if (input.equals("q"))
+			{
+				System.exit(0);
+			}
+		}
+		
 		
 		/*
+		bitch.moveSnake(1, 0); //going in 
+		bitch.gridPrint();
+		bitch.addObstacle();
+		System.out.println();
+		bitch.gridPrint();
+	
+		bitch.growSnake(1,0); // going in 
+		bitch.gridPrint();
+		bitch.addObstacle();
+		bitch.growSnake(0,1);  // good goes down one 
+		bitch.gridPrint();
+		bitch.growSnake(1, 0); //invalid rule 
+		bitch.gridPrint();
+		
+		
 		Coord testCoord = new Coord(0,1);
 		Snake bitchFucker = new Snake(testCoord, MAX_SIZE);
 		bitchFucker.move(0,1);

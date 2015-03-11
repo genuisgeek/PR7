@@ -7,6 +7,7 @@
 
  import java.awt.*;
  import java.util.Random;
+ import java.util.Arrays;
 
 public class GameGrid
 {
@@ -25,7 +26,7 @@ public class GameGrid
 	private char [][] charGrid;
 	
 	
-	public GameGrid(int N, int M)
+	public GameGrid(int M, int N)
 	{
 		obstacleRand = new Random();
 		gridWidth = N;
@@ -46,12 +47,11 @@ public class GameGrid
 		}
 	}
 	
-	public boolean moveSnake(int m, int n) 
+	public boolean moveSnake(int n, int m) //n denotes left/ right , m denotes up/down
 	{
 		snakeCopy = aSnake.getWholeSnake(); // make a copy of the current snake
 		if (!aSnake.move(n, m))
 		{
-			System.out.println("invalid move");
 			return false;
 		}
 		
@@ -64,17 +64,17 @@ public class GameGrid
 		return true;
 	}
 	
-	public boolean growSnake(int m, int n)
+	public boolean growSnake(int n, int m) //n denotes left/ right , m denotes up/down
 	{
 		snakeCopy = aSnake.getWholeSnake();
 		if (!aSnake.grow(n, m))
 		{
-			System.out.println("INVALID BITCH");
 			return false;
 		}
 		
 		if(!checkRules())
 		{
+			System.out.println("broken rule");
 			return false;
 		}
 		clearSnake(snakeCopy);
@@ -88,6 +88,7 @@ public class GameGrid
 			int check = 0;
 			for (int i = 0; i < c.length; ++i)
 			{
+				// System.out.println("It should be clearing this coordinate: " + c[i].getX() + " " + c[i].getY());
 				charGrid[c[i].getX()][c[i].getY()] = '.';
 			}
 		}
@@ -98,7 +99,7 @@ public class GameGrid
 		}
 	}
 	
-	public void redrawSnake(Coord [] c)
+	private void redrawSnake(Coord [] c)
 	{
 		try 
 		{
@@ -106,7 +107,7 @@ public class GameGrid
 			charGrid[c[0].getX()][c[0].getY()] = 'H'; // H head is definitely moving
 			for (int i = 1; i < c.length; ++i)
 			{
-				//System.out.println("It is changing this coordinate right now: " + c[i].getX() + " " + c[i].getY());
+				// System.out.println("It is changing this coordinate right now: " + c[i].getX() + " " + c[i].getY());
 				// System.out.print("How many times is this going in?");
 				// check++;
 				// System.out.println(check);
@@ -116,7 +117,6 @@ public class GameGrid
 		
 		catch (NullPointerException e)
 		{
-			System.out.println("Entered NullPointerException");
 			return;
 		}
 	}
@@ -141,14 +141,18 @@ public class GameGrid
 	private boolean checkRules()
 	{
 		// check within grid
+		// checks the y-edge
 		head = new Coord(aSnake.getHeadCoord());
 		if (head.getX() >= gridWidth || head.getX() < 0)
 		{
+			// System.out.println("hit y edge");
 			return false;
 		}
 		
+		// checks the X-edge
 		if (head.getY() >= gridHeight || head.getY() < 0)
 		{
+			// System.out.println("hit x-edge");
 			return false;
 		}
 		
@@ -158,7 +162,7 @@ public class GameGrid
 			return false;
 		}
 		
-		// check if hit obstacle 
+		// check if hit obstacle (works)
 		if (charGrid[head.getX()][head.getY()] == obstacleCell)
 		{
 			return false;
@@ -166,13 +170,20 @@ public class GameGrid
 		return true;
 	}
 	
-	public char [][] getCharGrid()
+	public char [][] getCharGrid() // returns charGrid 
 	{
 		return charGrid;
 	}
 	
-	public static void main (String args[])
+	public void gridPrint() // method to print simple asci snake grid
 	{
-		
+		for (int i = 0; i < gridWidth; ++i)
+		{
+			for (int j = 0; j < gridHeight; ++j)
+			{
+				System.out.print(charGrid[i][j] + " ");
+			}
+			System.out.println();
+		}
 	}
 }
