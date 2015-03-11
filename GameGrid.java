@@ -10,12 +10,9 @@
 
 public class GameGrid
 {
-	private static final int MAX_SIZE = 15;
-	private static int gridWidth = 400;
-	private static int gridHeight = 400;
-	private static int gridCell = 10;
-	// private static int cellWidth = 0;
-	// private static int cellHeight = 0;
+	private static int gridWidth;
+	private static int gridHeight;
+	private static int gridCell;
 	private char emptyCell = '.';
 	private char snakeHeadCell = 'H';
 	private char snakeBodyCell = '#';
@@ -25,17 +22,14 @@ public class GameGrid
 	private Coord initial;
 	private Coord [] snakeCopy;
 	private Coord head;
-	public char [][] charGrid;
+	private char [][] charGrid;
 	
 	
-	public GameGrid(int N, int M, int P)
+	public GameGrid(int N, int M)
 	{
 		obstacleRand = new Random();
 		gridWidth = N;
-		// cellWidth = N / P;
-		// cellHeight = M / P;
 		gridHeight = M;
-		gridCell = P;
 		initial = new Coord(gridWidth / 2, gridHeight / 2);
 		aSnake = new Snake(initial, gridWidth * gridHeight);
 		charGrid = new char [gridWidth][gridHeight];
@@ -170,6 +164,11 @@ public class GameGrid
 			return false;
 		}
 		return true;
+	}
+	
+	public char [][] getCharGrid()
+	{
+		return charGrid;
 	}
 	
 	public static void main (String args[])

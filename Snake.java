@@ -91,17 +91,12 @@ public class Snake
 	return false;
   }
   
-  public Coord [] getWholeSnake()
+  public Coord [] getWholeSnake() // needed to get copy 
   {
-	Coord[] copySnakeBody = new Coord[snakeBody.length];
-	for (int i = 0; i < snakeBody.length; ++i)
-	{
-		copySnakeBody[i] = snakeBody[i];
-	}
-	return copySnakeBody;
+	return snakeBody;
   }
   
-  public String toString()
+  public String toString() // made toString method to check array of snakebody
   {
 	String printSnakeBody = "";
 	for (int i = 0; i < snakeBody.length; ++i) {

@@ -2,22 +2,23 @@ import java.util.Arrays;
 
 public class tester
 {
-	static GameGrid bitch = new GameGrid(5, 5, 10);
+	static GameGrid bitch = new GameGrid(5, 5);
 	public static void main (String args[])
 	{
 		bitch.drawGrid();
-		System.out.println(Arrays.deepToString(bitch.charGrid));
+		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
 		bitch.addObstacle();
 		bitch.moveSnake(1, 0); //going in 
-		System.out.println(Arrays.deepToString(bitch.charGrid));
+		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
 		bitch.addObstacle();
 		bitch.growSnake(1,0); // going in 
-		System.out.println(Arrays.deepToString(bitch.charGrid));
+		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
 		bitch.addObstacle();
 		bitch.growSnake(0,1);  // good goes down one 
-		System.out.println(Arrays.deepToString(bitch.charGrid));
+		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
 		bitch.growSnake(1, 0); //invalid rule 
-		System.out.println(Arrays.deepToString(bitch.charGrid));
+		System.out.println(Arrays.deepToString(bitch.getCharGrid()));
+		
 		/*
 		Coord testCoord = new Coord(0,1);
 		Snake bitchFucker = new Snake(testCoord, MAX_SIZE);
