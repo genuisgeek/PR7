@@ -14,8 +14,8 @@ public class GameGrid
 	private static int gridWidth = 400;
 	private static int gridHeight = 400;
 	private static int gridCell = 10;
-	private static int cellWidth = 0;
-	private static int cellHeight = 0;
+	// private static int cellWidth = 0;
+	// private static int cellHeight = 0;
 	private char emptyCell = '.';
 	private char snakeHeadCell = 'H';
 	private char snakeBodyCell = '#';

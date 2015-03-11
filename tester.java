@@ -9,9 +9,11 @@ public class tester
 		System.out.println(Arrays.deepToString(bitch.charGrid));
 		bitch.moveSnake(1, 0);
 		System.out.println(Arrays.deepToString(bitch.charGrid));
-		bitch.growSnake(0,1);
+		bitch.growSnake(1,0);
 		System.out.println(Arrays.deepToString(bitch.charGrid));
-		bitch.growSnake(0,1);
+		bitch.growSnake(1,0);
+		System.out.println(Arrays.deepToString(bitch.charGrid));
+		bitch.growSnake(1,0);
 		System.out.println(Arrays.deepToString(bitch.charGrid));
 		/*
 		Coord testCoord = new Coord(0,1);
