@@ -3,12 +3,10 @@
  * email: 
  *
  */
-
-
+ 
  import java.awt.*;
  import java.util.Random;
- import java.util.Arrays;
-
+ 
 public class GameGrid
 {
 	private static int gridWidth;
@@ -57,6 +55,7 @@ public class GameGrid
 		
 		if(!checkRules())
 		{
+			System.out.println("broken rule");
 			return false;
 		}
 		clearSnake(snakeCopy);
@@ -93,7 +92,7 @@ public class GameGrid
 			}
 		}
 		
-		catch (NullPointerException e) 
+		catch (NullPointerException e) // c[n] is null because snake is not full yet
 		{
 			return;
 		}
@@ -121,6 +120,7 @@ public class GameGrid
 		}
 	}
 	
+	// adds random obstacles into the grid 
 	public void addObstacle()
 	{
 		int x, y;
@@ -132,7 +132,7 @@ public class GameGrid
 			if ( charGrid[x][y] == '.')
 			{
 				charGrid[x][y] = obstacleCell;
-				loopRandom = false;
+				loopRandom = false; // only let it add obstacle once
 			}
 		}
 	}
@@ -165,6 +165,7 @@ public class GameGrid
 		// check if hit obstacle (works)
 		if (charGrid[head.getX()][head.getY()] == obstacleCell)
 		{
+			System.out.println("HIT OBSTACLE");
 			return false;
 		}
 		return true;
