@@ -11,13 +11,39 @@ import java.awt.event.*;
 
 public class SnakeMover implements KeyListener
 {
-	// private static Snake aSnake = new Snake
-	public void turnLeft(KeyEvent j)
+	private static int timeInterval;
+	private GameGrid grid;
+	
+	public SnakeMover()
+	{
+	}
+	
+	public void run()
 	{
 		
 	}
-	
-	public void turnRight(KeyEvent l)
+	@Override 
+	// private static Snake aSnake = new Snake
+	public void keyPressed(KeyEvent e)
 	{
+		if (e.equals('j'))
+		{
+			
+		}
+		
+		if (e.equals('l'))
+		{
+		
+		}
+	}
+	
+	public void keyReleased(KeyEvent e)
+	{
+	
+	}
+	
+	public void keyTyped(KeyEvent e)
+	{
+	
 	}
 }
