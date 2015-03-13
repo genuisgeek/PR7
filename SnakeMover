@@ -1,0 +1,27 @@
+//name: Wei Han Lee; Thomas Kuo
+//id: AXXXXXXXX, AXXXXXXXXX
+//email: blank blank
+
+import java.awt.*;
+import java.awt.event.*;
+
+public class SnakeMover implements KeyListener
+{
+  private static final int WAIT = 50;
+  private static final int MIN = 1;
+  private static final int MAX = 20;
+  private SnakeGame controls;
+  private GameGrid grid;
+  private Coord curDirection;
+  private boolean move = true;
+
+  public SnakeMover(SnakeGame control, GameGrid Grid, Coord start)
+  {
+    curDirection = start;
+    grid = Grid;
+    controls = control;
+    start();
+  }
+  
+  public void
+}
