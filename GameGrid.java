@@ -22,29 +22,26 @@ public class GameGrid
 	private Coord initial;
 	private Coord [] snakeCopy;
 	private Coord head;
-	private Graphics [][] charGrid;
-	private Grid grid;
+	private char [][] charGrid;
 	
 	
-	public GameGrid(int M, int N, Grid g) 
+	public GameGrid(int M, int N) 
 	{
 		obstacleRand = new Random();
 		gridWidth = N;
 		gridHeight = M;
-		grid = g;
 		initial = new Coord(gridWidth / 2, gridHeight / 2);
 		aSnake = new Snake(initial, gridWidth * gridHeight);
-		charGrid = new Graphics [gridWidth][gridHeight];
+		charGrid = new char [gridWidth][gridHeight];
 	}
 	
-	public void drawGrid() // makes ascii grid 
+	public void drawGrid() // makes grid fill with . 
 	{
 		for (int i = 0; i < gridWidth; ++i)
 		{
 			for (int j = 0; j < gridHeight; ++j)
 			{
-				charGrid[i][j].setColor(Color.white);
-				charGrid[i][j].fillRect(0, 0, grid.pixels, grid.pixels);
+				charGrid[i][j] = '.';
 			}
 		}
 	}
@@ -91,10 +88,8 @@ public class GameGrid
 			int check = 0;
 			for (int i = 0; i < c.length; ++i)
 			{
-				charGrid[c[i].getX()][c[i].getY()].setColor(Color.white);
-				charGrid[c[i].getX()][c[i].getY()].fillRect(0, 0, grid.pixels, grid.pixels);
 				// System.out.println("It should be clearing this coordinate: " + c[i].getX() + " " + c[i].getY());
-				// charGrid[c[i].getX()][c[i].getY()] = '.';
+				charGrid[c[i].getX()][c[i].getY()] = '.';
 			}
 		}
 		
@@ -109,17 +104,14 @@ public class GameGrid
 		try 
 		{
 			int check = 0;
-			charGrid[c[0].getX()][c[0].getY()].setColor(Color.red); // red is color of head 
-			charGrid[c[0].getX()][c[0].getY()].fillRect(0, 0, grid.pixels, grid.pixels); // H head is definitely moving
+			charGrid [c[0].getX()][c[0].getY()] = 'H'; // H head is definitely moving
 			for (int i = 1; i < c.length; ++i)
 			{
 				// System.out.println("It is changing this coordinate right now: " + c[i].getX() + " " + c[i].getY());
 				// System.out.print("How many times is this going in?");
 				// check++;
 				// System.out.println(check);
-				charGrid[c[i].getX()][c[i].getY()].setColor(Color.blue); // blue is color of body
-				charGrid[c[i].getX()][c[i].getY()].fillRect(0, 0, grid.pixels, grid.pixels);
-				// charGrid [c[i].getX()][c[i].getY()] = '#';
+				charGrid [c[i].getX()][c[i].getY()] = '#';
 			}
 		}
 		
@@ -138,9 +130,9 @@ public class GameGrid
 		{
 			x = obstacleRand.nextInt(gridWidth);
 			y = obstacleRand.nextInt(gridHeight);
-			if ( charGrid[x][y].getColor() == Color.white)
+			if ( charGrid[x][y] == '.')
 			{
-				charGrid[x][y].setColor(Color.white);
+				charGrid[x][y] = 'O';
 				loopRandom = false; // only let it add obstacle once
 			}
 		}
@@ -172,7 +164,7 @@ public class GameGrid
 		}
 		
 		// check if hit obstacle (works)
-		if (charGrid[head.getX()][head.getY()].getColor() == Color.white)
+		if (charGrid[head.getX()][head.getY()] == 'O')
 		{
 			System.out.println("HIT OBSTACLE");
 			return false;
@@ -180,7 +172,7 @@ public class GameGrid
 		return true;
 	}
 	
-	public Graphics [][] getCharGrid() // returns charGrid 
+	public char [][] getCharGrid() // returns charGrid 
 	{
 		return charGrid;
 	}

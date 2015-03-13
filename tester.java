@@ -3,19 +3,19 @@ import java.util.Scanner;
 import java.awt.*;
 import javax.swing.*;
 
-public class tester 
+public class tester extends JFrame
 {
 	// private static GameGrid bitch = new GameGrid(10, 30);
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
-	private static GraphicsGrid fuckGraph;
+	private static GraphicsGrid graphGrid;
 	
 	public static void main (String args[])
 	{
-		JFrame frame = new JFrame("Fuck");
-		JPanel panel = new JPanel(new GridLayout(1,1));
-		panel.add(fuckGraph.window.getGrid());
-	
+		graphGrid = new GraphicsGrid(400, 400, 10);
+		this.setVisible(true);
+		
+		
 		/*
 		// bitch.drawGrid();
 		// bitch.gridPrint();
