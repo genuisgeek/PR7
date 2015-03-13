@@ -13,6 +13,7 @@ import java.io.IOException;
 public class GraphicsGrid
 {
   
+  
   public static void main(String[] a)
   {
     MyWindow window = new MyWindow();
@@ -31,8 +32,9 @@ public class GraphicsGrid
   {
     private Grid grid;
     int width, height, pixels;
+	private GameGrid gGrid; 
 
-    public MyWindow()
+    public MyWindow() // don't need two constructors 
     {
       super();
       Grid grid = new Grid();
@@ -46,6 +48,7 @@ public class GraphicsGrid
     {
       super();
       Grid grid = new Grid(width, height, pixels);
+	  gGrid = new GameGrid(width / pixels, height / pixels, grid);
       setSize(width, height);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       add(grid);
