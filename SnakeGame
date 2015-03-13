@@ -25,7 +25,7 @@ public class SnakeGame implements ActionListener, ChangeListener
   
   public static void main(String[] args)
   {
-    new SnakeGame();
+    SnakeGame startGame = new SnakeGame();
   }
 
   public void start()
@@ -92,10 +92,11 @@ public class SnakeGame implements ActionListener, ChangeListener
   
   private void setSpeed()
   {
-    int movement = speedSlide.getValue();
+    int newSpeed = speedSlide.getValue();
     if (move != null)
     {
-      movement = //i dont understand the equation for this
+      newSpeed = ((MAX_SPEED - newSpeed) / 10) + 1;
+      move.setSpeed( 2 * newSpeed);//change for snakeMover? setMethod
     }
   }
 
@@ -118,7 +119,20 @@ public class SnakeGame implements ActionListener, ChangeListener
   public void changeSpeed()
   {
     int speed = speedSlide.getValue();
-    //skeptical about the equation here?
+    int tempSpeed = ((score / 100) + 1) * MIN_SPEED; //every 100 points increment increase
+    if (MAX_SPEED < tempSpeed)
+    {
+      tempSpeed = MAX_SPEED;
+    }
+
+    if (tempSpeed >= speed)
+    {
+      speedSlide.setValue(tempSpeed);
+    }
+    else if (speed > tempSpeed)
+    {
+      speedSlide.setValue(speed);
+    }
   }
 
   public void makeObstacle()
