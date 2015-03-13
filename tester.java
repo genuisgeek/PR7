@@ -3,21 +3,35 @@ import java.util.Scanner;
 import java.awt.*;
 import javax.swing.*;
 
-public class tester extends JFrame
+public class tester 
 {
 	// private static GameGrid bitch = new GameGrid(10, 30);
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
 	private static GraphicsGrid graphGrid;
+	// private static GameGrid gameGrid;
+	
+	public tester()
+	{
+		design();
+	}
+	public void design()
+	{
+		JFrame frame = new JFrame();
+		graphGrid = new GraphicsGrid(233, 400, 13);
+		graphGrid.fillCell();
+		frame.setSize(400, 400);
+		frame.add(graphGrid, BorderLayout.CENTER);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setVisible(true);
+	}
 	
 	public static void main (String args[])
 	{
-		graphGrid = new GraphicsGrid(400, 400, 10);
-		this.setVisible(true);
+		new tester();		
 		
 		
-		/*
-		// bitch.drawGrid();
+		graphGrid.gameGrid.drawGrid();
 		// bitch.gridPrint();
 		while(true)
 		{
@@ -25,23 +39,23 @@ public class tester extends JFrame
 			
 			if (input.equals("k")) // simple movement is a problem because it keeps the H value 
 			{
-				bitch.moveSnake(1, 0);
-				bitch.gridPrint();
-				bitch.addObstacle();
+				graphGrid.gameGrid.moveSnake(0, 1);
+				graphGrid.gameGrid.addObstacle();
+				graphGrid.fillCell();
 			}	
 			
 			if (input.equals("j"))
 			{
-				bitch.growSnake(0, -1);
-				bitch.gridPrint();
-				bitch.addObstacle();
+				graphGrid.gameGrid.growSnake(-1, 0);
+				graphGrid.gameGrid.addObstacle();
+				graphGrid.fillCell();
 			}
 			
 			if (input.equals("l"))
 			{
-				bitch.growSnake(0, 1);
-				bitch.gridPrint();
-				bitch.addObstacle();
+				graphGrid.gameGrid.growSnake(1, 0);
+				graphGrid.gameGrid.addObstacle();
+				graphGrid.fillCell();
 			}
 			
 			if (input.equals("q"))
@@ -51,7 +65,7 @@ public class tester extends JFrame
 		}
 		
 		
-	
+		/*
 		bitch.moveSnake(1, 0); //going in 
 		bitch.gridPrint();
 		bitch.addObstacle();

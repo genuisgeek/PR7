@@ -17,17 +17,8 @@ public class GraphicsGrid extends JPanel
 	private static Scanner usrKey = new Scanner(System.in);
 	private int width, height, pixels;
     private char[][] paintGrid;
-	private GameGrid gameGrid; 
+	public GameGrid gameGrid; 
 	private ArrayList<Coord> fillCells = new ArrayList<Coord>();
-
-	/*
-    public GraphicsGrid()
-    { 
-		width = 400;
-		height = 400;
-		pixels = 10;
-    }
-	*/
 
     public GraphicsGrid(int width, int height, int pixels)
     {
@@ -39,49 +30,14 @@ public class GraphicsGrid extends JPanel
 			for (int j = 0; j < height / pixels; ++j)
 			{
 				paintGrid[i][j] = gameGrid.getCharGrid()[i][j];
+				Coord arrayCoord = new Coord(i, j);
+				fillCells.add(arrayCoord);
 			}
 		}
 		this.width = width;
 		this.height = height;
 		this.pixels = pixels;
     }
-	
-	public static void main(String[] a)
-	{
-		/*
-		while(true)
-		{
-			input = usrKey.next();
-			window.gameGrid.drawGrid();
-				
-			if (input.equals("k")) // simple movement is a problem because it keeps the H value 
-			{
-				window.gameGrid.moveSnake(1, 0);
-				window.gameGrid.addObstacle();
-				window.grid.repaint();
-			}	
-			
-			if (input.equals("j"))
-			{
-				window.gameGrid.growSnake(0, -1);
-				window.gameGrid.addObstacle();
-				window.grid.repaint();
-			}
-			
-			if (input.equals("l"))
-			{
-				window.gameGrid.growSnake(0, 1);
-				window.gameGrid.addObstacle();
-				window.grid.repaint();
-			}
-			
-			if (input.equals("q"))
-			{
-				System.exit(0);
-			}
-			*/
-	}
-
 	
     @Override
     protected void paintComponent(Graphics g)
@@ -103,7 +59,7 @@ public class GraphicsGrid extends JPanel
 			{
 				int cellX = fillCell.getX() * pixels;
 				int cellY = fillCell.getY() * pixels;
-				g.setColor(Color.pink);
+				g.setColor(Color.green);
 				g.fillRect(cellX, cellY, pixels, pixels);
 			}
 			
@@ -126,31 +82,64 @@ public class GraphicsGrid extends JPanel
 			}
 		}
 		
-		//code for here when we finalize what color our snake right?
-		//so everytime we move the head we repaint; or we make a new method for this?
 		g.setColor(Color.BLACK);
-		g.drawRect(0, 0 , width, height);
-		for (int i = 0; i < width; i += pixels)
-		{
-			g.drawLine(i, 0, i, height);
-		}
+		if ((width % pixels == 0) && (height % pixels == 0)) {
+			g.drawRect(0, 0, width, height); // draws large rectangle
+			for (int i = 0; i < width; i += pixels) { // draws vertical lines 
+				g.drawLine(i, 0, i, height);
+			}
 
-		for (int i = 0; i < height; i += pixels)
-		{
-			g.drawLine(0, i, width, i);
+			for (int i = 0; i < height; i += pixels) { // draws horizontal lines
+				g.drawLine(0, i, width, i);
+			}
 		}
 		
+		else {
+			int newWidth = 0;
+			int newHeight = 0;
+			if((width % pixels == 0) && (height % pixels != 0)) {
+				newWidth = width;
+				newHeight = (height / pixels) * pixels;
+				g.drawRect(0, 0, newWidth, newHeight);
+			}
+			
+			if((width % pixels != 0) && (pixels % pixels == 0)) {
+				newWidth = (width - pixels) * pixels;
+				newHeight = height;
+				g.drawRect(0, 0, newWidth, newHeight);
+			}
+			
+			if((width % pixels != 0) && (height % pixels != 0)) {
+				newWidth = (width / pixels) * pixels;
+				newHeight = (height / pixels) * pixels;
+				g.drawRect(0, 0, newWidth, newHeight);
+			}
+			
+			for (int i = 0; i < newWidth; i += pixels) { // draws vertical lines
+				g.drawLine(i, 0, i, newHeight);
+			}
+
+			for (int i = 0; i < newHeight; i += pixels) {  //draws horizontal lines 
+				g.drawLine(0, i, newWidth, i);
+			}
+			
+		}
     }
 
-    public void fillCell(int x, int y)
+    public void fillCell()
     { 
-		fillCells.add(new Coord(x, y));
+		for ( int i = 0; i < width / pixels; ++i)
+		{
+			for (int j = 0; j < height / pixels; ++j)
+			{
+				paintGrid[i][j] = gameGrid.getCharGrid()[i][j];
+			}
+		}
 		repaint();
     }
 
     public void clearCell(int idx)
     {
-		fillCells.remove(idx);
 		repaint();
     }
 }
