@@ -1,0 +1,169 @@
+//name: Wei Han Lee; Thomas Kuo
+//id: AXXXXXXXXX; AXXXXXXXXXX
+//email: email,email
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+
+public class SnakeGame implements ActionListener, ChangeListener
+{
+  private static final int WIDTH = 400;
+  private static final int HEIGHT = 400;
+  private static final int PIXEL = 10;
+  private JButton resetBut, newGameBut;
+  private JLabel scoreLabel, highLabel, overLabel;
+  private jSlider speedSlide;
+  private int score = 0, moveCounter = 0, hScore = 0;
+  private boolean playing = true;
+  private Coord iniDirection;
+  private GameGrid grid;
+  private SnakeMover move;
+  private static final int MIN_SPEED = 10;
+  private static final int MAX_SPEED = 100;
+  
+  public static void main(String[] args)
+  {
+    new SnakeGame();
+  }
+
+  public void start()
+  {
+    gameWindow();
+    buttonReset.addActionListener(this);
+    buttonNew.addActionListener(this);
+    speedSlide.addChangeListener(this);
+  }
+  
+  private void game()
+  {
+    score = 0;
+    scoreLabel.setText("".format("%4d", score));
+    moveCounter = 0;
+    playing = true;
+    iniDirection = new Coord(0,1);
+
+    grid = new GameGrid(WIDTH, HEIGHT); // change to dynamic
+    move = new SnakeMover(this, grid, iniDirection);
+
+    setSpeed();
+    Container pane = getContentPane();
+    pane.addKeyListener(move);
+    overLabel.setText("");
+
+  }
+
+  private void gameWindow()
+  {
+    JPanel north, south;
+
+    north = new Jpanel();
+    north.setLayout(new GridLayout(2, 3));
+
+    JLabel scoLabel = new JLabel("Score: ");
+    scoreLabel = new JLabel("".format("%4d", score));
+    overLabel = new JLabel("GAME OVER!");
+    JLabel hscoLabel = new JLabel("High Score: " );
+    highLabel = new JLabel("".format("%4d", hScore));
+
+    north.add(scoLabel);
+    north.add(scoreLabel);
+    north.add(hscoLabel);
+    north.add(highLabel);
+    north.add(overLabel);
+    
+    south = new JPanel();
+    south.setLayout(new FlowLayout());
+    speedSlide = new JSlider(MIN_SPEED, MAX_SPEED, MIN_SPEED);
+    
+    newGameBut = new JButton("New Game");
+    resetBut = new JButton("Reset");
+    
+    south.add(speedSlide);
+    south.add(newGameBut);
+    south.add(resetBut);
+
+    Container pane = getContentPane();
+    pane.add(north, BorderLayout.NORTH);
+    pane.add(south, BorderLayout.SOUTH);
+    pane.validate();
+  }
+  
+  private void setSpeed()
+  {
+    int movement = speedSlide.getValue();
+    if (move != null)
+    {
+      movement = //i dont understand the equation for this
+    }
+  }
+
+  public void gameSession()
+  {
+    int tempScore = score;
+
+    score += 10;
+    if (score >= hScore)
+    {
+      hScore = score;
+    }
+
+    highLabel.setText("".format("%4d", hScore));
+    scoreLabel.setText("".format("%4d", score));
+    changeSpeed();
+    makeObstacle();
+  }
+
+  public void changeSpeed()
+  {
+    int speed = speedSlide.getValue();
+    //skeptical about the equation here?
+  }
+
+  public void makeObstacle()
+  {
+    ++moveCounter;
+
+    if (moveCounter >= 10)
+    {
+      grid.addObstacle(); //change method to correct one
+      moveCounter = 0;
+    }
+  }
+
+  public void death()
+  {
+    playing = false;
+    overLabel.setText("GAME OVER");
+  }
+
+  public void slideChange(ChangeEvent event)
+  {
+    setSpeed();
+  }
+
+  public void buttonPress (ActionEvent event)
+  {
+    if (event.getSource() == resetBut)
+    {
+      score = 0, hScore = 0;
+      highLabel.setText("".format("%4d", hScore));
+      scoreLabel.setText("".format("%4d", score));
+
+      if (move ! = null)
+      {
+        move.//stopmethod();  
+      }
+
+      playing = false;
+      speedSlide.setValue(MIN_SPEED);
+      overLabel.setText("GAME OVER");
+    }
+
+    if (event.getSource() == newGameBut)
+    {
+      game();
+    }
+  }
+}
