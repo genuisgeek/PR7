@@ -1,16 +1,24 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import java.awt.*;
+import javax.swing.*;
 
-public class tester
+public class tester 
 {
-	private static GameGrid bitch = new GameGrid(10, 30);
+	// private static GameGrid bitch = new GameGrid(10, 30);
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
+	private static GraphicsGrid fuckGraph;
 	
 	public static void main (String args[])
 	{
-		bitch.drawGrid();
-		bitch.gridPrint();
+		JFrame frame = new JFrame("Fuck");
+		JPanel panel = new JPanel(new GridLayout(1,1));
+		panel.add(fuckGraph.window.getGrid());
+	
+		/*
+		// bitch.drawGrid();
+		// bitch.gridPrint();
 		while(true)
 		{
 			input = usrKey.next();
@@ -43,7 +51,7 @@ public class tester
 		}
 		
 		
-		/*
+	
 		bitch.moveSnake(1, 0); //going in 
 		bitch.gridPrint();
 		bitch.addObstacle();

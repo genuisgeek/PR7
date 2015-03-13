@@ -54,6 +54,11 @@ public class GraphicsGrid
       add(grid);
       setVisible(true);
     }
+	
+	public Grid getGrid()
+	{
+		return this.grid;
+	}
   }
 
   class Grid extends JPanel
