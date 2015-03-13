@@ -22,7 +22,7 @@ public class GraphicsGrid extends JPanel
 
     public GraphicsGrid(int width, int height, int pixels)
     {
-		gameGrid = new GameGrid(width / pixels, height / pixels);
+		gameGrid = new GameGrid(height / pixels, width / pixels);
 		gameGrid.drawGrid(); // creates the array as having '.' or white 
 		paintGrid = new char[width / pixels][height / pixels];
 		for ( int i = 0; i < width / pixels; ++i)
