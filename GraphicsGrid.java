@@ -144,6 +144,15 @@ public class GraphicsGrid extends JPanel
 		repaint();
     }
 
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public int getHeight()
+	{
+		return height;
+	}
     public void clearCell(int idx)
     {
 		repaint();

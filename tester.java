@@ -22,11 +22,12 @@ public class tester
 		graphGrid = new GraphicsGrid(233, 400, 13);
 		// System.out.println(direction);
 		graphGrid.fillCell();
-		frame.setSize(400, 400);
+		frame.setSize(graphGrid.getHeight(), graphGrid.getWidth());
 		// frame.add(graphGrid, BorderLayout.CENTER);
 		// frame.setLayout(new GridBagLayout());
 		// frame.add(graphGrid, new GridBagConstraints());
-		frame.getContentPane().add(graphGrid);
+		frame.getContentPane();
+		frame.setContentPane(graphGrid);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
@@ -34,13 +35,12 @@ public class tester
 	public static void main (String args[])
 	{
 		new tester();		
-		
-		// graphGrid.gameGrid.drawGrid();
 		graphGrid.gameGrid.printFirstSnake();
 		graphGrid.fillCell();
 		while(true)
 		{
 			graphGrid.fillCell();
+			/*
 			input = usrKey.next();
 			if (input.equals("k")) // simple movement is a problem because it keeps the H value 
 			{
@@ -66,7 +66,7 @@ public class tester
 			if (input.equals("q"))
 			{
 				System.exit(0);
-			}
+			}*/
 		}
 		
 		
