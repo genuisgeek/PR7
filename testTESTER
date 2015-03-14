@@ -14,7 +14,8 @@ public class tester implements ActionListener, ChangeListener
 	private static GraphicsGrid graphGrid;
   private static int MIN_SPEED = 10;
   private static int MAX_SPEED = 100;
-  private int score = 0, moveCounter = 0;
+  private int moveCounter = 0;
+  private static int score = 0;
   private int highscore = 0;
   private JButton newButton, resetButton;
   private boolean playing = true;
@@ -142,7 +143,6 @@ public class tester implements ActionListener, ChangeListener
   
   public void gameSession()
   {
-    score += 10;
     if (score >= highscore)
     {
       highscore = score;
@@ -160,7 +160,7 @@ public class tester implements ActionListener, ChangeListener
 	
 	public static void main (String args[])
 	{
-		new tester();		
+		new tester();
 		
 		// graphGrid.gameGrid.drawGrid();
 		graphGrid.gameGrid.printFirstSnake();
@@ -168,6 +168,12 @@ public class tester implements ActionListener, ChangeListener
 		while(true)
 		{
 			graphGrid.fillCell();
+      /*
+      score = graphGrid.gameGrid.getScore(); 
+      SO BECAUSE IT HAS TO INCREMENT SCORE WHEN IT MOVES,
+      I NEED TO FIND A WAY TO GET THE SCORE AND REUPDATE IT
+      SO I AM TRYING TO DO THAT HERE
+      */
     }
 		
 		}
