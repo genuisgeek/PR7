@@ -30,7 +30,7 @@ public class GameGrid
 		obstacleRand = new Random();
 		gridWidth = N;
 		gridHeight = M;
-		initial = new Coord(gridWidth / 2, gridHeight / 2);
+		initial = new Coord((gridWidth / 2), 0);
 		aSnake = new Snake(initial, gridWidth * gridHeight);
 		charGrid = new char [gridWidth][gridHeight];
 	}
@@ -172,6 +172,19 @@ public class GameGrid
 		return true;
 	}
 	
+	public boolean printFirstSnake()
+	{
+		snakeCopy = aSnake.getWholeSnake();
+		if(!checkRules())
+		{
+			System.out.println("broken rule");
+			return false;
+		}
+		System.out.println(snakeCopy[0]);
+		clearSnake(snakeCopy);
+		redrawSnake(aSnake.getWholeSnake());
+		return true;
+	}
 	public char [][] getCharGrid() // returns charGrid 
 	{
 		return charGrid;

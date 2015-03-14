@@ -8,21 +8,26 @@ public class tester
 	// private static GameGrid bitch = new GameGrid(10, 30);
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
-	private static GraphicsGrid graphGrid;
 	// private static GameGrid gameGrid;
+	private static GraphicsGrid graphGrid;
 	
 	public tester()
 	{
 		design();
 	}
+	
 	public void design()
 	{
 		JFrame frame = new JFrame();
 		graphGrid = new GraphicsGrid(233, 400, 13);
+		// System.out.println(direction);
 		graphGrid.fillCell();
 		frame.setSize(400, 400);
-		frame.add(graphGrid, BorderLayout.CENTER);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		// frame.add(graphGrid, BorderLayout.CENTER);
+		// frame.setLayout(new GridBagLayout());
+		// frame.add(graphGrid, new GridBagConstraints());
+		frame.getContentPane().add(graphGrid);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
@@ -30,13 +35,13 @@ public class tester
 	{
 		new tester();		
 		
-		
-		graphGrid.gameGrid.drawGrid();
-		// bitch.gridPrint();
+		// graphGrid.gameGrid.drawGrid();
+		graphGrid.gameGrid.printFirstSnake();
+		graphGrid.fillCell();
 		while(true)
 		{
+			graphGrid.fillCell();
 			input = usrKey.next();
-			
 			if (input.equals("k")) // simple movement is a problem because it keeps the H value 
 			{
 				graphGrid.gameGrid.moveSnake(0, 1);
