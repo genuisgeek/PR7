@@ -21,6 +21,7 @@ public class SnakeMover extends Thread implements KeyListener
 	private Coord nextDirection;
 	private int newTick = 0; 
 	private int tick = MAX;
+  private int obCounter = 0;
 	private boolean move = true;
 	// private SnakeGame;
 	
@@ -56,7 +57,12 @@ public class SnakeMover extends Thread implements KeyListener
 					if(move)
 					{
 						move = gameGrid.moveSnake(initialDirection.getX(), initialDirection.getY());
-            gameGrid.addObstacle();
+            ++obCounter;
+            if (obCounter >= 10)
+            {
+              gameGrid.addObstacle();
+              obCounter = 0;
+            }
 						newTick = 0;
 					}
 				}
@@ -66,7 +72,7 @@ public class SnakeMover extends Thread implements KeyListener
 		}
 	}
 
-  public int getScore()
+  public int getScore() //get score??
   {
     return score;
   }
@@ -115,6 +121,15 @@ public class SnakeMover extends Thread implements KeyListener
 		
 		move = gameGrid.growSnake(nextDirection.getX(), nextDirection.getY());
 		initialDirection = nextDirection;
+
+    ++obCounter;
+    if (obCounter >= 10)
+    {
+      gameGrid.addObstacle();
+      obCounter = 0;
+    }
+
+    score += 10;//score +10 if you turn
 		newTick = 0;
 		/*
 		if (move)
