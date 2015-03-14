@@ -2,34 +2,91 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.event.*;
 
-public class tester 
+public class tester implements ActionListener, ChangeListener
 {
 	// private static GameGrid bitch = new GameGrid(10, 30);
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
 	// private static GameGrid gameGrid;
 	private static GraphicsGrid graphGrid;
+  private static int MIN_SPEED = 10;
+  private static int MAX_SPEED = 100;
+  private int score = 2;
+  private int highscore = 3;
+  private JButton newButton, resetButton;
+  private JSlider speedSlide;
 	
 	public tester()
 	{
 		design();
+    newButton.addActionListener(this);
+    resetButton.addActionListener(this);
+    speedSlide.addChangeListener(this);
 	}
 	
 	public void design()
 	{
 		JFrame frame = new JFrame();
-		graphGrid = new GraphicsGrid(233, 400, 13);
+
+    JPanel northPanel = new JPanel();
+    northPanel.setLayout(new GridLayout(2,3));
+
+    JLabel inputs = new JLabel("NO");
+    JLabel inputss = new JLabel("".format("%4d", score));
+    JLabel scoresss = new JLabel("STOP IT");
+    JLabel inputssss = new JLabel("STOP IT NOW");
+    JLabel inputsssss = new JLabel("".format("%4d", highscore));
+
+    northPanel.add(inputs);
+    northPanel.add(inputss);
+    northPanel.add(scoresss);
+    northPanel.add(inputssss);
+    northPanel.add(inputsssss);
+
+    JPanel southPanel = new JPanel();
+    southPanel.setLayout(new FlowLayout());
+
+    newButton = new JButton("NEW GAME");
+    resetButton = new JButton("RESET GAME");
+    speedSlide = new JSlider(MIN_SPEED, MAX_SPEED, MIN_SPEED);
+
+    southPanel.add(newButton);
+    southPanel.add(resetButton);
+    southPanel.add(speedSlide);
+
+		graphGrid = new GraphicsGrid(400, 400, 13);
 		// System.out.println(direction);
 		graphGrid.fillCell();
-		frame.setSize(400, 400);
-		// frame.add(graphGrid, BorderLayout.CENTER);
-		// frame.setLayout(new GridBagLayout());
-		// frame.add(graphGrid, new GridBagConstraints());
-		frame.getContentPane().add(graphGrid);
+		frame.setSize(400, 600);
+		frame.add(graphGrid, BorderLayout.CENTER);
+    frame.add(northPanel, BorderLayout.NORTH);
+    frame.add(southPanel, BorderLayout.SOUTH);
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+    frame.setVisible(true);
 	}
+  
+  public void actionPerformed (ActionEvent event)
+  {
+    if (event.getSource() == newButton)
+    {
+      System.out.println("STUPID DIE");
+    }
+
+    if (event.getSource() == resetButton)
+    {
+      System.out.println("CRYING INTERNALLY");
+    }
+  }
+
+  public void stateChanged (ChangeEvent event)
+  {
+    int speedTest = speedSlide.getValue();
+    System.out.println(speedTest);
+  }
 	
 	public static void main (String args[])
 	{
