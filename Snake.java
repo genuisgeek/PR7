@@ -81,13 +81,17 @@ public class Snake
   
   public boolean checkIntersect(Coord c)
   {
-	for (int i = 0; i < snakeBody.length; ++i)
+	for (int i = 1; i < snakeBody.length; ++i)
 	{
-		if (c == snakeBody[i])
+    try
+    {
+		if (c.toString().equals(snakeBody[i].toString()))
 		{
-			System.out.println("hit");
+      System.out.println("DIE");
 			return true;
 		}
+    }
+    catch (NullPointerException e){}
 	}
 	return false;
   }
