@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class tester extends JFrame implements ActionListener, ChangeListener
+public class tester extends JFrame implements ActionListener, ChangeListener, Runnable
 {
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
@@ -28,7 +28,7 @@ public class tester extends JFrame implements ActionListener, ChangeListener
 	
 	public tester()
 	{
-		design();
+		run();
 		newButton.addActionListener(this);
 		resetButton.addActionListener(this);
 		speedSlide.addChangeListener(this);
@@ -47,6 +47,7 @@ public class tester extends JFrame implements ActionListener, ChangeListener
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.setSize(400, 400);
 		graphGrid = new GraphicsGrid(width, height, pixelSize, centerPanel);
+		graphGrid.gameGrid.printFirstSnake();
 		graphGrid.fillCell();
 		centerPanel.add(graphGrid, BorderLayout.CENTER);
 		
@@ -54,10 +55,9 @@ public class tester extends JFrame implements ActionListener, ChangeListener
 		centerPanel.addKeyListener(move);
 		centerPanel.setFocusable(true);
 		centerPanel.requestFocusInWindow();
-		add(centerPanel, BorderLayout.CENTER);
 	}
 	
-	public void design()
+	public void run()
 	{
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new GridLayout(2,3));
@@ -91,12 +91,24 @@ public class tester extends JFrame implements ActionListener, ChangeListener
 		southPanel.add(newButton);
 		southPanel.add(resetButton);
 		southPanel.add(speedSlide);
+
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new BorderLayout());
+		centerPanel.setSize(400, 400);
+		graphGrid = new GraphicsGrid(centerPanel.getSize().width, centerPanel.getSize().height, 10, centerPanel);
+		graphGrid.gameGrid.printFirstSnake();
+		centerPanel.add(graphGrid, BorderLayout.CENTER);
+		move = new SnakeMover(graphGrid.gameGrid, initial, this);
+		centerPanel.addKeyListener(move);
+		centerPanel.setFocusable(true);
+		centerPanel.requestFocusInWindow();
 		
 		setSize(400, 600);
-		add(northPanel, BorderLayout.NORTH);
-		add(southPanel, BorderLayout.SOUTH);
+		Container pane = getContentPane();
+		pane.add(centerPanel, BorderLayout.CENTER);
+		pane.add(northPanel, BorderLayout.NORTH);
+		pane.add(southPanel, BorderLayout.SOUTH);
 		validate();		
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -195,10 +207,7 @@ private void adjustSpeed()
 	public static void main (String args[])
 	{
 		new tester();
-		// graphGrid.gameGrid.printFirstSnake();
-		while(true)
-		{
-			graphGrid.fillCell();
-		}
+		// SwingUtilities.invokeLater(new tester());
+		while(true) graphGrid.fillCell();
 	}
 }
