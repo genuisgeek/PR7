@@ -43,7 +43,7 @@ public class SnakeMover extends Thread implements KeyListener
     {
       tickspeed = MAX;
     }
-    ticks = tickspeed;
+    tick = tickspeed;
   }
 	
 	public synchronized void run() 
