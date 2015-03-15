@@ -5,60 +5,40 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class tester extends JFrame implements ActionListener, ChangeListener
+public class tester implements ActionListener, ChangeListener
 {
+	// private static GameGrid bitch = new GameGrid(10, 30);
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
+	// private static GameGrid gameGrid;
 	private static GraphicsGrid graphGrid;
-	private static int MIN_SPEED = 10;
-	private static int MAX_SPEED = 100;
-	private int moveCounter = 0;
-	private static int score = 0;
-	private int highscore = 0;
-	private JButton newButton, resetButton;
-	private boolean playing = true;
-	private JSlider speedSlide;
-	private SnakeMover move;
-	private JLabel gameOverLabel, scoLabel, scoreLab, hscoLabel, hscoreLab;
-	private int moveCount = 0;
-	private Coord initial = new Coord(0, 1);
-	private int pixelSize = 10; 
-	private JPanel centerPanel;
-	private int speed;
+  private static int MIN_SPEED = 5;
+  private static int MAX_SPEED = 100;
+  private int moveCounter = 0;
+  private int everyHun = 0;
+  private int speedMod = 5;
+  private int score = 0;
+  private int highscore = 0;
+  private JButton newButton, resetButton;
+  private boolean playing = true;
+  private JSlider speedSlide;
+  private SnakeMover move;
+  private JLabel gameOverLabel, scoLabel, scoreLab, hscoLabel, hscoreLab;
+  private int moveCount = 0;
+  private Coord startDir = new Coord(0,1);
 	
 	public tester()
 	{
 		design();
-		newButton.addActionListener(this);
-		resetButton.addActionListener(this);
-		speedSlide.addChangeListener(this);
-	}
-	
-	public void startGame()
-	{
-		score = 0;
-		moveCount = 0;
-		playing = true;
-		initial = new Coord(0, 1);
-		int width = centerPanel.getPreferredSize().width;
-		int height = centerPanel.getPreferredSize().height;
-		
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new BorderLayout());
-		centerPanel.setSize(400, 400);
-		graphGrid = new GraphicsGrid(width, height, pixelSize, centerPanel);
-		graphGrid.fillCell();
-		centerPanel.add(graphGrid, BorderLayout.CENTER);
-		
-		move = new SnakeMover(graphGrid.gameGrid, initial, this);
-		centerPanel.addKeyListener(move);
-		centerPanel.setFocusable(true);
-		centerPanel.requestFocusInWindow();
-		add(centerPanel, BorderLayout.CENTER);
+    newButton.addActionListener(this);
+    resetButton.addActionListener(this);
+    speedSlide.addChangeListener(this);
 	}
 	
 	public void design()
 	{
+		JFrame frame = new JFrame();
+
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new GridLayout(2,3));
 
@@ -78,54 +58,77 @@ public class tester extends JFrame implements ActionListener, ChangeListener
 		southPanel.setLayout(new GridLayout(1,3));
 
 		newButton = new JButton("NEW GAME");
-		newButton.setFocusable(false);
 		resetButton = new JButton("RESET GAME");
-		resetButton.setFocusable(false);
-		
 		speedSlide = new JSlider(MIN_SPEED, MAX_SPEED, MIN_SPEED);
 		speedSlide.setMajorTickSpacing(10);
 		speedSlide.setSnapToTicks(true);
 		speedSlide.setPaintTicks(true);
-		speedSlide.setFocusable(false);
 
 		southPanel.add(newButton);
 		southPanel.add(resetButton);
 		southPanel.add(speedSlide);
-		
-		setSize(400, 600);
-		add(northPanel, BorderLayout.NORTH);
-		add(southPanel, BorderLayout.SOUTH);
-		validate();		
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new GridLayout(1,3));
+		graphGrid = new GraphicsGrid(400, 400, 10, centerPanel);
+		graphGrid.fillCell();
+		centerPanel.add(graphGrid);
+		
+		frame.setSize(400, 600);
+		frame.add(centerPanel, BorderLayout.CENTER);
+		frame.add(northPanel, BorderLayout.NORTH);
+		frame.add(southPanel, BorderLayout.SOUTH);
+
+		move = new SnakeMover(graphGrid.gameGrid, startDir, this);
+		graphGrid.addKeyListener(move);
+		graphGrid.setFocusable(true);
+		graphGrid.requestFocusInWindow();
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
   
   public void actionPerformed (ActionEvent event)
   {
     if (event.getSource() == newButton)
     {
-	  startGame();
+      beginAgain();
+    /*
+      new tester();
       graphGrid.gameGrid.printFirstSnake();
+    */
     }
 
     if (event.getSource() == resetButton)
     {
-		highscore = 0;
-		hscoreLab.setText("".format("%4d", highscore));
-		scoreLab.setText("".format("%4d", score = 0));
-		death();
-		if (move != null) {
-			move.stopMove();
-		}
-		speed = MIN_SPEED;
-		speedSlide.setValue(speed);
+      score += 10;
+      everyHun += 10;
+      if (everyHun >= 100)
+      {
+        speedMod += 10;
+        speedSlide.setValue(speedMod);
+        everyHun = 0;
+        //System.out.println(speedSlide.getValue());
+        adjustSpeed();
+      }
+    /*
+      new tester();
+      graphGrid.gameGrid.printFirstSnake();
+    */
     }
   }
-
-private void adjustSpeed()
+  private void beginAgain()
   {
-    speed = speedSlide.getValue();
+    score = 0; 
+    moveCounter = 0;
+    scoreLab.setText("".format("%4d", score));
+    playing = true;
+    startDir = new Coord(0,1);
+  }
+
+  private void adjustSpeed()
+  {
+    int speed = speedSlide.getValue();
     int tempSpeed = ((score / 100) + 1) * MIN_SPEED;
     if (MAX_SPEED < tempSpeed)
     {
@@ -195,10 +198,20 @@ private void adjustSpeed()
 	public static void main (String args[])
 	{
 		new tester();
-		// graphGrid.gameGrid.printFirstSnake();
+		
+		// graphGrid.gameGrid.drawGrid();
+		graphGrid.gameGrid.printFirstSnake();
+		graphGrid.fillCell();
 		while(true)
 		{
 			graphGrid.fillCell();
+      /*
+      score = graphGrid.gameGrid.getScore(); 
+      SO BECAUSE IT HAS TO INCREMENT SCORE WHEN IT MOVES,
+      I NEED TO FIND A WAY TO GET THE SCORE AND REUPDATE IT
+      SO I AM TRYING TO DO THAT HERE
+      */
+    }
+		
 		}
-	}
 }

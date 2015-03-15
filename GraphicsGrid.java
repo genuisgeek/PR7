@@ -22,9 +22,10 @@ public class GraphicsGrid extends JPanel
 	private SnakeMover snakeMove;
 	private Coord direction = new Coord(0, 1);
 	private tester snakeGame;
-	private JPanel panel;
+	private JPanel jf;
+	private int frameWidth, frameHeight;
 
-    public GraphicsGrid(int width, int height, int pixels, JPanel jp)
+    public GraphicsGrid(int width, int height, int pixels, JPanel jf)
     {
 		gameGrid = new GameGrid(height / pixels, width / pixels);
 		gameGrid.drawGrid(); // creates the array as having '.' or white 
@@ -38,7 +39,9 @@ public class GraphicsGrid extends JPanel
 				fillCells.add(arrayCoord);
 			}
 		}
-		this.panel = jp;
+		this.jf = jf;
+		frameWidth = jf.getSize().width;
+		frameHeight = jf.getSize().height;
 		this.width = width;
 		this.height = height;
 		this.pixels = pixels;
@@ -89,7 +92,13 @@ public class GraphicsGrid extends JPanel
 		
 		g.setColor(Color.BLACK);
 		if ((width % pixels == 0) && (height % pixels == 0)) {
-			g.drawRect(0, 0, width, height); // draws large rectangle
+			int unitWidth = frameWidth / pixels;
+			int unitHeight = frameHeight / pixels;
+			int xOffset = (frameWidth - width) / 2;
+			int yOffset = (frameHeight - height) / 2;
+			
+			g.drawRect(xOffset, yOffset,xOffset + width - 1, yOffset + height - 1); // draws large rectangle
+		
 			for (int i = 0; i < width; i += pixels) { // draws vertical lines 
 				g.drawLine(i, 0, i, height);
 			}
@@ -144,8 +153,8 @@ public class GraphicsGrid extends JPanel
 
 	public void newGridDim()
 	{
-		this.width = panel.getPreferredSize().width;
-		this.height = panel.getPreferredSize().height;
+		this.width = jf.getPreferredSize().width;
+		this.height = jf.getPreferredSize().height;
 		repaint();
 	}
 	public int getWidth()
