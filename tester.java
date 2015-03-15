@@ -7,63 +7,86 @@ import javax.swing.event.*;
 
 public class tester implements ActionListener, ChangeListener
 {
-	// private static GameGrid bitch = new GameGrid(10, 30);
 	private static Scanner usrKey = new Scanner(System.in);
 	private static String input;
-	// private static GameGrid gameGrid;
 	private static GraphicsGrid graphGrid;
-  private static int MIN_SPEED = 10;
-  private static int MAX_SPEED = 100;
-  private int score = 2;
-  private int highscore = 3;
-  private JButton newButton, resetButton;
-  private JSlider speedSlide;
+	private static int MIN_SPEED = 10;
+	private static int MAX_SPEED = 100;
+	private int moveCounter = 0;
+	private static int score = 0;
+	private int highscore = 0;
+	private JButton newButton, resetButton;
+	private boolean playing = true;
+	private JSlider speedSlide;
+	private SnakeMover sMove;
+	private JLabel gameOverLabel, scoLabel, scoreLab, hscoLabel, hscoreLab;
+	private int moveCount = 0;
+	private Coord initial = new Coord(0, 1);
 	
 	public tester()
 	{
 		design();
-    newButton.addActionListener(this);
-    resetButton.addActionListener(this);
-    speedSlide.addChangeListener(this);
+		newButton.addActionListener(this);
+		resetButton.addActionListener(this);
+		speedSlide.addChangeListener(this);
+	}
+	
+	public void startGame()
+	{
+		score = 0;
+		moveCount = 0;
+		playing = true;
+		initial = new Coord(0, 1);
+		// int width = 
+		
 	}
 	
 	public void design()
 	{
 		JFrame frame = new JFrame();
 
-    JPanel northPanel = new JPanel();
-    northPanel.setLayout(new GridLayout(2,3));
+		JPanel northPanel = new JPanel();
+		northPanel.setLayout(new GridLayout(2,3));
 
-    JLabel inputs = new JLabel("NO");
-    JLabel inputss = new JLabel("".format("%4d", score));
-    JLabel scoresss = new JLabel("STOP IT");
-    JLabel inputssss = new JLabel("STOP IT NOW");
-    JLabel inputsssss = new JLabel("".format("%4d", highscore));
+		scoLabel = new JLabel("Score: ");
+		scoreLab = new JLabel("".format("%4d", score));
+		gameOverLabel = new JLabel("");
+		hscoLabel = new JLabel("High Score: ");
+		hscoreLab = new JLabel("".format("%4d", highscore));
 
-    northPanel.add(inputs);
-    northPanel.add(inputss);
-    northPanel.add(scoresss);
-    northPanel.add(inputssss);
-    northPanel.add(inputsssss);
+		northPanel.add(scoLabel);
+		northPanel.add(scoreLab);
+		northPanel.add(gameOverLabel);
+		northPanel.add(hscoLabel);
+		northPanel.add(hscoreLab);
 
-    JPanel southPanel = new JPanel();
-    southPanel.setLayout(new FlowLayout());
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new GridBagLayout());
 
-    newButton = new JButton("NEW GAME");
-    resetButton = new JButton("RESET GAME");
-    speedSlide = new JSlider(MIN_SPEED, MAX_SPEED, MIN_SPEED);
+		newButton = new JButton("NEW GAME");
+		resetButton = new JButton("RESET GAME");
+		speedSlide = new JSlider(MIN_SPEED, MAX_SPEED, MIN_SPEED);
 
-    southPanel.add(newButton);
-    southPanel.add(resetButton);
-    southPanel.add(speedSlide);
-
-		graphGrid = new GraphicsGrid(400, 400, 13);
-		// System.out.println(direction);
+		southPanel.add(newButton);
+		southPanel.add(resetButton);
+		southPanel.add(speedSlide);
+		
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new GridLayout(1, 3));
+		graphGrid = new GraphicsGrid(400, 400, 13, centerPanel);
 		graphGrid.fillCell();
+		centerPanel.add(graphGrid);
+		
 		frame.setSize(400, 600);
-		frame.add(graphGrid, BorderLayout.CENTER);
+		frame.add(centerPanel);
 		frame.add(northPanel, BorderLayout.NORTH);
 		frame.add(southPanel, BorderLayout.SOUTH);
+		
+		sMove = new SnakeMover(graphGrid.gameGrid, initial, this);
+		graphGrid.addKeyListener(sMove);
+		graphGrid.setFocusable(true);
+		graphGrid.requestFocusInWindow();
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
@@ -72,95 +95,102 @@ public class tester implements ActionListener, ChangeListener
   {
     if (event.getSource() == newButton)
     {
-      System.out.println("STUPID DIE");
+      new tester();
+      //needs to change once we can get it to become dynamic?
+      graphGrid.gameGrid.printFirstSnake();
+      /*
+      graphGrid.fillCell();
+      while (true)
+      {
+        graphGrid.fillCell();
+      }
+      */
     }
 
     if (event.getSource() == resetButton)
     {
-      System.out.println("CRYING INTERNALLY");
+      new tester();
+      graphGrid.gameGrid.printFirstSnake();
+    }
+  }
+
+  private void adjustSpeed()
+  {
+    int speed = speedSlide.getValue();
+    int tempSpeed = ((score / 100) + 1) * MIN_SPEED;
+    if (MAX_SPEED < tempSpeed)
+    {
+      tempSpeed = MAX_SPEED;
+    }
+
+    if (tempSpeed >= speed)
+    {
+      speedSlide.setValue(tempSpeed);
+    }
+    else if (speed > tempSpeed)
+    {
+      speedSlide.setValue(speed);
+    }
+  }
+
+  private void changeSpeed()
+  {
+    int newSpeed = speedSlide.getValue();
+    if (sMove != null)
+    {
+      newSpeed = ((MAX_SPEED - newSpeed) / 10) + 1;
+      sMove.setSpeed( 2 * newSpeed);
     }
   }
 
   public void stateChanged (ChangeEvent event)
   {
-    int speedTest = speedSlide.getValue();
-    System.out.println(speedTest);
+    changeSpeed();
+    gameSession();
+  }
+
+  public void moveSnake()
+  {
+    if (++moveCount >= 10)
+    {
+      graphGrid.gameGrid.addObstacle();
+      moveCount = 0;
+    }
+  }
+  
+  public void gameSession()
+  {
+	if(!playing)
+	{
+		return;
+	}
+	
+	this.moveSnake();
+	score += 10;
+    if (score >= highscore)
+    {
+      highscore = score;
+    }
+	
+    scoreLab.setText("".format("%4d", score));
+    hscoreLab.setText("".format("%4d", highscore));
+    changeSpeed();
+  }
+
+  public void death()
+  {
+    playing = false;
+    gameOverLabel.setText("GAME OVER");
   }
 	
 	public static void main (String args[])
 	{
-		new tester();		
+		new tester();
 		graphGrid.gameGrid.printFirstSnake();
 		graphGrid.fillCell();
 		while(true)
 		{
 			graphGrid.fillCell();
-			/*
-			input = usrKey.next();
-			if (input.equals("k")) // simple movement is a problem because it keeps the H value 
-			{
-				graphGrid.gameGrid.moveSnake(0, 1);
-				graphGrid.gameGrid.addObstacle();
-				graphGrid.fillCell();
-			}	
-			
-			if (input.equals("j"))
-			{
-				graphGrid.gameGrid.growSnake(-1, 0);
-				graphGrid.gameGrid.addObstacle();
-				graphGrid.fillCell();
-			}
-			
-			if (input.equals("l"))
-			{
-				graphGrid.gameGrid.growSnake(1, 0);
-				graphGrid.gameGrid.addObstacle();
-				graphGrid.fillCell();
-			}
-			
-			if (input.equals("q"))
-			{
-				System.exit(0);
-			}*/
 		}
-		
-		
-		/*
-		bitch.moveSnake(1, 0); //going in 
-		bitch.gridPrint();
-		bitch.addObstacle();
-		System.out.println();
-		bitch.gridPrint();
-	
-		bitch.growSnake(1,0); // going in 
-		bitch.gridPrint();
-		bitch.addObstacle();
-		bitch.growSnake(0,1);  // good goes down one 
-		bitch.gridPrint();
-		bitch.growSnake(1, 0); //invalid rule 
-		bitch.gridPrint();
-		
-		
-		Coord testCoord = new Coord(0,1);
-		Snake bitchFucker = new Snake(testCoord, MAX_SIZE);
-		bitchFucker.move(0,1);
-		System.out.println(bitchFucker.getHeadCoord());
-		bitchFucker.move(1,0);
-		System.out.println(bitchFucker.getHeadCoord());
-		bitchFucker.move(0,0); // invalid
-		System.out.println(bitchFucker.getHeadCoord());
-		bitchFucker.move(1,1); //invalid
-		System.out.println(bitchFucker.getHeadCoord());
-		bitchFucker.move(0,2); // invalid
-		System.out.println(bitchFucker.getHeadCoord());
-		bitchFucker.move(2,0); //invlaid
-		System.out.println(bitchFucker.getHeadCoord());
-		bitchFucker.move(2,2); // invalid
-		System.out.println(bitchFucker.getHeadCoord());
-		bitchFucker.grow(0, 1);
-		System.out.println(bitchFucker.getHeadCoord());
-		System.out.println(bitchFucker.getTailCoord());
-		System.out.println(bitchFucker.toString());
-		*/
 	}
 }

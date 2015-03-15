@@ -157,13 +157,13 @@ public class GameGrid
 			return false;
 		}
 		
-		//check if it intersects 
+		//check if it intersects with itself
 		if (aSnake.checkIntersect(head))
 		{
 			return false;
 		}
 		
-		// check if hit obstacle (works)
+		// check if hit obstacle 
 		if (charGrid[head.getX()][head.getY()] == 'O')
 		{
 			System.out.println("HIT OBSTACLE");
@@ -180,7 +180,6 @@ public class GameGrid
 			System.out.println("broken rule");
 			return false;
 		}
-		System.out.println(snakeCopy[0]);
 		clearSnake(snakeCopy);
 		redrawSnake(aSnake.getWholeSnake());
 		return true;

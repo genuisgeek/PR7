@@ -85,6 +85,7 @@ public class Snake
 	{
 		if (c == snakeBody[i])
 		{
+			System.out.println("hit");
 			return true;
 		}
 	}

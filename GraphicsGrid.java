@@ -21,8 +21,10 @@ public class GraphicsGrid extends JPanel
 	private ArrayList<Coord> fillCells = new ArrayList<Coord>();
 	private SnakeMover snakeMove;
 	private Coord direction = new Coord(0, 1);
+	private tester snakeGame;
+	private JPanel panel;
 
-    public GraphicsGrid(int width, int height, int pixels)
+    public GraphicsGrid(int width, int height, int pixels, JPanel jp)
     {
 		gameGrid = new GameGrid(height / pixels, width / pixels);
 		gameGrid.drawGrid(); // creates the array as having '.' or white 
@@ -36,10 +38,7 @@ public class GraphicsGrid extends JPanel
 				fillCells.add(arrayCoord);
 			}
 		}
-		snakeMove = new SnakeMover(gameGrid, direction);
-		addKeyListener(snakeMove);
-		setFocusable(true);
-		requestFocusInWindow();
+		this.panel = jp;
 		this.width = width;
 		this.height = height;
 		this.pixels = pixels;
@@ -125,10 +124,9 @@ public class GraphicsGrid extends JPanel
 				g.drawLine(i, 0, i, newHeight);
 			}
 
-			for (int i = 0; i < newHeight - 2; i += pixels) {  //draws horizontal lines 
+			for (int i = 0; i < newHeight; i += pixels) {  //draws horizontal lines 
 				g.drawLine(0, i, newWidth, i);
 			}
-			
 		}
     }
 
@@ -144,6 +142,12 @@ public class GraphicsGrid extends JPanel
 		repaint();
     }
 
+	public void newGridDim()
+	{
+		this.width = panel.getPreferredSize().width;
+		this.height = panel.getPreferredSize().height;
+		repaint();
+	}
 	public int getWidth()
 	{
 		return width;
